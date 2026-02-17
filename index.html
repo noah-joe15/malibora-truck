@@ -224,7 +224,8 @@
             margin-bottom: 20px; display: flex; align-items: center;
             gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
-        .comp-icon { font-size: 2.5rem; }
+        /* Increased icon container size for the geometric symbol */
+        .comp-icon { font-size: 2.5rem; display: flex; align-items: center; justify-content: center; }
 
         /* MAINTENANCE STYLES */
         .maint-alert-box {
@@ -312,7 +313,7 @@
         </div>
     </div>
     <div style="position: absolute; bottom: 10px; font-size: 0.7rem; opacity: 0.5;">
-        System v8.3 | Mobile Fixed
+        System v8.4 | Compliance Symbol Updated
     </div>
 </div>
 
@@ -320,7 +321,7 @@
     <div class="header">
         <div>
             <h1 style="margin:0;">International Logistics Truck Management System (ILTM)</h1>
-            <small style="color:#64748b;">TruckTracker Pro v8.3</small>
+            <small style="color:#64748b;">TruckTracker Pro v8.4</small>
         </div>
         <div style="display:flex; align-items:center;">
             <button class="lang-btn" onclick="toggleLanguage()" id="btnLang">🇹🇿 SW</button>
@@ -658,7 +659,15 @@
 
     <div id="compliance" class="section">
         <div class="comp-header">
-            <div class="comp-icon">🛡️</div>
+            <div class="comp-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+                    <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+                    <path d="M7 21h10"/>
+                    <path d="M12 3v18"/>
+                    <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
+                </svg>
+            </div>
             <div>
                 <h2 style="margin:0; font-size:1.4rem;">Regulatory & Compliance</h2>
                 <small style="opacity:0.8;">Manage LATRA, Insurance, Parking & Penalties</small>
