@@ -59,6 +59,7 @@
             text-align: center; font-size: 1.5rem; letter-spacing: 5px;
             margin-bottom: 15px; outline: none; background: rgba(255,255,255,0.9); color: #333;
             font-family: 'Roboto', sans-serif;
+            box-sizing: border-box; /* Fix for overflow */
         }
         .login-btn {
             width: 100%; padding: 15px; border-radius: 10px; border: none;
@@ -125,10 +126,10 @@
         .panel {
             background: var(--white); padding: 20px; border-radius: 16px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 20px;
+            overflow-x: auto; /* Allow horizontal scroll for tables on mobile */
         }
 
         .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media(max-width: 768px) { .split-layout { grid-template-columns: 1fr; } }
 
         input, select, textarea {
             width: 100%; padding: 12px; border: 1px solid var(--border);
@@ -138,6 +139,18 @@
         }
         input:focus, select:focus { border-color: var(--primary); background: #fff; }
         label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.85rem; color: var(--text-dark); }
+
+        /* --- RESPONSIVE FORM ROW CLASS --- */
+        /* Replaces inline grid styles to fix mobile layout */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 0px; /* Inputs handle their own bottom margin */
+        }
+        .form-row.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
 
         /* --- BUTTONS --- */
         .btn {
@@ -163,7 +176,7 @@
         .mode-btn.active.debt { background: var(--white); color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
         /* --- TABLES --- */
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 500px; /* Ensures table doesn't crush on phone */ }
         th { text-align: left; color: var(--text-light); font-size: 0.75rem; padding: 10px 5px; }
         td { padding: 12px 5px; border-bottom: 1px solid var(--border); vertical-align: middle; }
         .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; background: #e2e8f0; color: var(--text-light); }
@@ -183,19 +196,12 @@
         .debt-alert { background: #fee2e2; border: 1px solid #fecaca; color: #b91c1c; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: none; animation: fadeIn 0.3s; }
 
         /* HISTORY PAGE STYLES */
-        .history-search {
-            margin-bottom: 20px;
-        }
+        .history-search { margin-bottom: 20px; }
         .history-card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-            border-left: 4px solid transparent;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: white; border-radius: 12px; padding: 15px;
+            margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            border-left: 4px solid transparent; display: flex;
+            justify-content: space-between; align-items: center;
         }
         .history-card.income { border-left-color: var(--success); }
         .history-card.expense { border-left-color: var(--danger); }
@@ -214,14 +220,9 @@
         /* COMPLIANCE STYLES */
         .comp-header {
             background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            color: white; padding: 25px; border-radius: 16px;
+            margin-bottom: 20px; display: flex; align-items: center;
+            gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
         .comp-icon { font-size: 2.5rem; }
 
@@ -237,23 +238,13 @@
         
         /* END TRIP BUTTON */
         .btn-end-trip {
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 5px;
+            background-color: #2563eb; color: white; border: none;
+            padding: 5px 12px; border-radius: 6px; font-size: 0.75rem;
+            font-weight: bold; cursor: pointer; margin-top: 5px;
         }
         .status-badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            text-transform: uppercase;
+            display: inline-block; padding: 3px 8px; border-radius: 4px;
+            font-size: 0.7rem; font-weight: bold; text-transform: uppercase;
         }
         .status-transit { background: #fef3c7; color: #b45309; }
         .status-complete { background: #dcfce7; color: #15803d; }
@@ -266,23 +257,40 @@
 
         /* MAP STYLES */
         #map {
-            height: 500px;
-            width: 100%;
-            border-radius: 16px;
-            z-index: 1;
-            margin-bottom: 10px;
-            border: 2px solid #e2e8f0;
+            height: 500px; width: 100%; border-radius: 16px;
+            z-index: 1; margin-bottom: 10px; border: 2px solid #e2e8f0;
         }
         .map-item-card {
-            background: #fff;
-            padding: 10px;
-            margin-bottom: 5px;
-            border-radius: 8px;
-            border-left: 4px solid #ccc;
-            cursor: pointer;
-            font-size: 0.85rem;
+            background: #fff; padding: 10px; margin-bottom: 5px;
+            border-radius: 8px; border-left: 4px solid #ccc;
+            cursor: pointer; font-size: 0.85rem;
         }
         .map-item-card:hover { background: #f8fafc; }
+
+        /* --- MOBILE MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .split-layout { grid-template-columns: 1fr; } 
+            
+            /* Force stacked inputs on mobile */
+            .form-row, .form-row.three-col {
+                grid-template-columns: 1fr !important;
+                gap: 5px;
+            }
+            
+            .header { flex-direction: column; text-align: center; gap: 10px; }
+            .header > div { width: 100%; justify-content: center; }
+            
+            #map { height: 350px; } /* Smaller map on mobile */
+            
+            .container { padding: 10px; padding-bottom: 80px; }
+            .nav-btn { padding: 8px 12px; font-size: 0.9rem; }
+            
+            .login-box { padding: 20px; }
+            
+            /* Adjust Manage sections to stack */
+            .manage-inputs { flex-direction: column !important; }
+            .manage-inputs input, .manage-inputs select { width: 100%; flex: none !important; margin-bottom: 5px !important; }
+        }
     </style>
 </head>
 <body>
@@ -304,7 +312,7 @@
         </div>
     </div>
     <div style="position: absolute; bottom: 10px; font-size: 0.7rem; opacity: 0.5;">
-        System v8.2 | Route Map Fixed
+        System v8.3 | Mobile Fixed
     </div>
 </div>
 
@@ -312,7 +320,7 @@
     <div class="header">
         <div>
             <h1 style="margin:0;">International Logistics Truck Management System (ILTM)</h1>
-            <small style="color:#64748b;">TruckTracker Pro v8.2</small>
+            <small style="color:#64748b;">TruckTracker Pro v8.3</small>
         </div>
         <div style="display:flex; align-items:center;">
             <button class="lang-btn" onclick="toggleLanguage()" id="btnLang">🇹🇿 SW</button>
@@ -361,9 +369,9 @@
 
         <div class="panel">
             <h3 data-key="fleet_perf">🚛 Fleet Performance & Maintenance</h3>
-            <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:10px; border-radius:8px; margin-bottom:15px; display:flex; align-items:center; gap:10px;">
+            <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:10px; border-radius:8px; margin-bottom:15px; display:flex; align-items:center; gap:10px; flex-wrap: wrap;">
                 <span style="font-size:0.8rem; font-weight:bold; color:#166534;">Quick Service Action:</span>
-                <select id="quickServiceTruck" style="margin:0; font-size:0.8rem; padding:5px;">
+                <select id="quickServiceTruck" style="margin:0; font-size:0.8rem; padding:5px; flex: 1;">
                     <option value="">Select Truck...</option>
                 </select>
                 <button onclick="manualServiceReset()" class="btn-sm" style="background:#166534; color:white; border:none; border-radius:4px; cursor:pointer;">Mark Service Done</button>
@@ -474,7 +482,7 @@
 
             <div id="paymentModeDiv" class="hidden" style="margin-bottom:15px;">
                 <label>Payment Options</label>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div class="form-row">
                     <button class="btn btn-outline" id="btnFull" onclick="setDebtType('full')" style="border-color:var(--success); color:var(--success);">🔴 Full Payment</button>
                     <button class="btn btn-outline" id="btnPartial" onclick="setDebtType('partial')" style="border-color:var(--warning); color:#b45309;">🟡 Partial / Half</button>
                 </div>
@@ -525,7 +533,7 @@
                 </div>
                 <input type="hidden" id="opMode" value="income">
 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div class="form-row">
                     <div><label data-key="lbl_date">Date</label><input type="date" id="opDate" onchange="checkDriverAvailability()"></div>
                     <div id="field-truck"><label data-key="lbl_truck">Truck</label><select id="opTruck" onchange="calcEstFuel()"></select></div>
                 </div>
@@ -539,7 +547,7 @@
                     <div style="border: 1px solid #cbd5e1; padding:15px; border-radius:10px; margin-bottom:15px; background:#f8fafc;">
                         <h4 style="margin-top:0; color:var(--primary);">🗺️ Trip Details</h4>
                         
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+                        <div class="form-row" style="margin-top:10px;">
                             <div>
                                 <label>Type</label>
                                 <select id="opTripType" onchange="updateTripUI(); calcEstFuel()">
@@ -556,7 +564,7 @@
                             </div>
                         </div>
 
-                        <div id="singleTripUI" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+                        <div id="singleTripUI" class="form-row" style="margin-top:10px;">
                             <div><label>From</label><select id="opFrom"></select></div>
                             <div><label>To</label><select id="opTo"></select></div>
                         </div>
@@ -588,7 +596,7 @@
                     <label data-key="lbl_cust">Customer (Auto-Filled)</label><select id="opCustomer"></select>
                     
                     <div style="background: #f0f9ff; padding: 15px; border-radius: 10px; border: 1px solid #bae6fd; margin-bottom: 15px;">
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <div class="form-row">
                             <div><label data-key="lbl_total">Total Price</label><input type="number" id="opTotal" oninput="calcBal()"></div>
                             <div><label data-key="lbl_paid">Paid Now</label><input type="number" id="opPaid" oninput="calcBal()"></div>
                         </div>
@@ -659,23 +667,26 @@
 
         <div class="panel">
             <h3 data-key="nav_comp">Add New Record</h3>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
+            <div class="form-row" style="margin-bottom:10px;">
                 <div style="grid-column: span 2;">
                     <label>Regulatory Category (Tanzania)</label>
                     <select id="cpType">
                         </select>
                 </div>
-                
+            </div>
+            
+            <div class="form-row">
                 <div>
                     <label>Truck / Vehicle</label>
                     <select id="cpTruck"></select>
                 </div>
-                
                 <div>
                     <label>Expiry / Due Date</label>
                     <input type="date" id="cpDate">
                 </div>
-                
+            </div>
+            
+            <div class="form-row">
                 <div>
                     <label>Amount (TZS)</label>
                     <input type="number" id="cpAmount" placeholder="Cost">
@@ -702,7 +713,7 @@
     <div id="settings" class="section">
         <div class="panel">
             <h3 data-key="set_backup">💾 Data Backup</h3>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div class="form-row">
                 <button class="btn btn-primary" onclick="backupData()" data-key="btn_dl">Download Backup</button>
                 <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()" data-key="btn_restore">Restore File</button>
             </div>
@@ -712,7 +723,7 @@
         <div class="split-layout">
             <div class="panel">
                 <h3 data-key="mng_trucks">Manage Trucks</h3>
-                <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px;">
+                <div class="manage-inputs" style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px;">
                     <input id="newTruckPlate" placeholder="Plate No." style="margin:0; flex:1;">
                     <select id="newTruckModel" style="margin:0; flex:1;">
                         <option value="Scania">Scania</option>
@@ -735,7 +746,7 @@
 
             <div class="panel">
                 <h3 data-key="mng_drivers">Manage Drivers & Assignments</h3>
-                <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:5px;">
+                <div class="manage-inputs" style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:5px;">
                     <input id="newDriver" placeholder="Driver Name" style="margin:0; flex:1;">
                     <select id="newDriverCust" style="margin:0; flex:1;">
                         <option value="">Assign Customer...</option>
@@ -1790,7 +1801,7 @@
                                 </div>
                             </td>
                         </tr>
-                     `;
+                      `;
                 }
             });
             if(fuelAnalyticsList.innerHTML === '') {
